@@ -1,40 +1,21 @@
 <?php
 
-namespace WoTVenxie\TruckersMPApiClient\Services;
+namespace WoTVenxie\TruckersMPApiClient\Providers;
 
-use GuzzleHttp\Client;
+use Illuminate\Support\ServiceProvider;
+use WoTVenxie\TruckersMPApiClient\Services\TruckersMPService;
 
-class TruckersMPService
+class TruckersMPServiceProvider extends ServiceProvider
 {
-    protected Client $client;
-
-    public function __construct(Client $client)
+    public function register(): void
     {
-        $this->client = $client;
+        $this->app->singleton('truckersmp', function ($app) {
+            return new TruckersMPService(new \GuzzleHttp\Client());
+        });
     }
 
-    public function getPlayer($steamId): object
+    public function boot(): void
     {
-        $response = $this->client->get("https://api.truckersmp.com/v2/player/{$steamId}");
-        return json_decode($response->getBody()->getContents());
-    }
-
-    public function getVtc($id): object
-    {
-        $response = $this->client->get("https://api.truckersmp.com/v2/vtc/{$id}");
-        return json_decode($response->getBody()->getContents());
-    }
-
-    public function getVtcMembers($id): object
-    {
-        $response = $this->client->get("https://api.truckersmp.com/v2/vtc/{$id}/members");
-        return json_decode($response->getBody()->getContents());
-    }
-
-    public function getEvent($eventId): object
-    {
-        $response = $this->client->get("https://api.truckersmp.com/v2/events/{$eventId}");
-        return json_decode($response->getBody()->getContents());
+        // Optional: publish config, setup, etc.
     }
 }
-
