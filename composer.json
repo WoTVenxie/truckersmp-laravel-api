@@ -1,5 +1,5 @@
 {
-    "name": "wotvenxie/truckersmp-api-client",
+    "name": "truckersmp-laravel-api",
     "description": "Laravel 12 client for the TruckersMP API",
     "type": "library",
     "license": "MIT",
